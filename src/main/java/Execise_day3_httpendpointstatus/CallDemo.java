@@ -7,7 +7,6 @@ package Execise_day3_httpendpointstatus;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
@@ -25,7 +24,7 @@ public class CallDemo implements Callable<String>{
     }
              
     @Override
-    public String call() throws Exception {
+     public String call() throws Exception {
          String result = "Error";
         try {
             
