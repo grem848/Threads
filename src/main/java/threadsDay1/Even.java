@@ -9,10 +9,15 @@ public class Even
 
     private int n = 0;
     
-    public synchronized int next()
+    public int next()
     {
-        n++;
-        n++;
+        synchronized(this){
+            for(int i = 0; i < 500; i++)
+            {
+                n++;
+                n++; 
+            }
+        }
         return n;
     }
 

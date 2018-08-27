@@ -8,6 +8,7 @@ package Execise_day3_httpendpointstatus;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -15,19 +16,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 //omkring 29 sekunder.
 
-public class SequentialPinger {
+public class SequentialPinger
+{
 
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException
+    {
 
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+        ArrayBlockingQueue<String> urls = new ArrayBlockingQueue(20);
 
-        List<Future<String>> list = new ArrayList<Future<String>>();
-
-        ArrayList<String> urls = new ArrayList();
         urls.add("http://cphbusiness.com");
         urls.add("http://yahoo.com");
         urls.add("http://crunchify.com");
@@ -44,32 +44,38 @@ public class SequentialPinger {
         urls.add("http://wikipedia.com");
         urls.add("http://phoronix.com");
         urls.add("http://stackoverflow.com");
-        urls.add("http://dr.com");
+        urls.add("http://dr.dk");
         urls.add("http://studypoint-plaul.rhcloud.com");
         urls.add("http://imgur.com");
 
-        for (String url : urls) {
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        List<Future<String>> list = new ArrayList<>();
+
+        for (String url : urls)
+        {
             Callable<String> callable = new CallDemo(url);
 
             Future<String> future = executor.submit(callable);
 
             list.add(future);
-
-            for (Future<String> fut : list) {
-                try {
-
-                    String getUrl = urls.get(1);
-                    String status = fut.get();
-
-                    System.out.println(getUrl + "\t\tStatus:" + status);
-
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-            executor.shutdown();
         }
 
-    }
+        for (Future<String> fut : list)
+        {
+            try
+            {
 
+                String getUrl = urls.poll();
+                String status = fut.get();
+
+                System.out.println(getUrl + "\t\tStatus:" + status);
+
+            } catch (InterruptedException | ExecutionException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        executor.shutdown();
+    }
 }

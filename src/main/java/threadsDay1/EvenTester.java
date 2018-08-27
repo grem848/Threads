@@ -18,9 +18,9 @@ public class EvenTester
         t2.start();
         t3.start();
 
-        t1.join();
-        t2.join();
-        t3.join();
+//        t1.join();
+//        t2.join();
+//        t3.join();
 
         System.out.println(t1.getName() + " - " + e.getN());
         System.out.println(t2.getName() + " - " + e.getN());
