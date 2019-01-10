@@ -13,13 +13,14 @@ public class Exercise1Tester
         Thread t1 = new Thread(() ->
         {
             long sum = 0;
+            long billion = 1000000000;
                     
-            for (int i = 1; i < 1000000000; i++)
+            for (long i = 1; i < billion; i++)
             {
                 sum += i;
 
             }
-            System.out.println(sum);
+            System.out.println("T1: " + sum);
         });
         
         Thread t2 = new Thread(() ->
@@ -27,7 +28,7 @@ public class Exercise1Tester
                     
             for (int i = 1; i < 6; i++)
             {
-                System.out.println(i);
+                System.out.println("T2: " + i);
 
             }
         });
@@ -37,14 +38,14 @@ public class Exercise1Tester
         
 
         t1.start();
-        t2.start();
-        
         t1.join();
+        
+        t2.start();
         t2.join();
         
         t3.start();
-        Thread.sleep(10000);
-        r3.stopThread();
+//        Thread.sleep(10000);
+//        r3.stopThread();
         
         t3.join();
         
